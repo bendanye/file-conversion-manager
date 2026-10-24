@@ -1,6 +1,8 @@
 from pathlib import Path
 import shutil
 
+INPUT_PATH = "/Users/benjaminng/Downloads/meeting-minutes-claude-code"
+
 
 def generate_output_filename(output_dir: Path, original_file: Path) -> Path:
     """
@@ -40,6 +42,11 @@ def process_directory(input_dir: Path, output_dir: Path):
 
     # Create output directory if it does not exist
     output_dir.mkdir(parents=True, exist_ok=True)
+
+    
+    for file in output_dir.iterdir():
+        if file.is_file() or file.is_symlink():
+            file.unlink()
 
     manifest_entries = []
 
@@ -88,7 +95,7 @@ def process_directory(input_dir: Path, output_dir: Path):
 
 
 def main():
-    input_dir = Path("/Users/benjaminng/Downloads/ansible-loop-engineering").resolve()
+    input_dir = Path(INPUT_PATH).resolve()
     output_dir = Path("./output").resolve()
 
     process_directory(input_dir, output_dir)
